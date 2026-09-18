@@ -1,0 +1,94 @@
+[
+  {
+    "ContainingType": "webApiAghos.Controllers.EmployeeController",
+    "Method": "Index",
+    "RelativePath": "",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "webApiAghos.Controllers.EmployeeController",
+    "Method": "GetExamesDetail",
+    "RelativePath": "api/GetExamesDetail/{tmpId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tmpId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "webApiAghos.Controllers.EmployeeController",
+    "Method": "GetExamesDetail2",
+    "RelativePath": "api/GetExamesDetail2/{tmpId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tmpId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "webApiAghos.Controllers.EmployeeController",
+    "Method": "GetExamesList",
+    "RelativePath": "api/GetExamesList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "webApiAghos.Controllers.EmployeeController",
+    "Method": "GetExamesList3",
+    "RelativePath": "api/GetExamesList3",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "webApiAghos.Controllers.EmployeeController",
+    "Method": "GetExamesList",
+    "RelativePath": "api/GetExamesListOff/{tmpOffset}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tmpOffset",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

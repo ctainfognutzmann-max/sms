@@ -1,0 +1,74 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\api_aghos\\webApiAghos20240221\\webApiAghos\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{24FF865E-1371-44E5-85B5-27989698CAFE}|webApiAghos\\webApiAghos.csproj|c:\\api_aghos\\webapiaghos20240221\\webapiaghos\\webapiaghos\\repositories\\tuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24FF865E-1371-44E5-85B5-27989698CAFE}|webApiAghos\\webApiAghos.csproj|solutionrelative:webapiaghos\\repositories\\tuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24FF865E-1371-44E5-85B5-27989698CAFE}|webApiAghos\\webApiAghos.csproj|c:\\api_aghos\\webapiaghos20240221\\webapiaghos\\webapiaghos\\controllers\\apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24FF865E-1371-44E5-85B5-27989698CAFE}|webApiAghos\\webApiAghos.csproj|solutionrelative:webapiaghos\\controllers\\apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 100,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1ce3aef-c78d-49ee-b72b-ec1fbc908313}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "TUserRepository.cs",
+              "DocumentMoniker": "C:\\api_aghos\\webApiAghos20240221\\webApiAghos\\webApiAghos\\Repositories\\TUserRepository.cs",
+              "RelativeDocumentMoniker": "webApiAghos\\Repositories\\TUserRepository.cs",
+              "ToolTip": "C:\\api_aghos\\webApiAghos20240221\\webApiAghos\\webApiAghos\\Repositories\\TUserRepository.cs",
+              "RelativeToolTip": "webApiAghos\\Repositories\\TUserRepository.cs",
+              "ViewState": "AgIAAHUAAAAAAAAAAAAawDMAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-21T13:10:42.544Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ApiController.cs",
+              "DocumentMoniker": "C:\\api_aghos\\webApiAghos20240221\\webApiAghos\\webApiAghos\\Controllers\\ApiController.cs",
+              "RelativeDocumentMoniker": "webApiAghos\\Controllers\\ApiController.cs",
+              "ToolTip": "C:\\api_aghos\\webApiAghos20240221\\webApiAghos\\webApiAghos\\Controllers\\ApiController.cs",
+              "RelativeToolTip": "webApiAghos\\Controllers\\ApiController.cs",
+              "ViewState": "AgIAADsAAAAAAAAAAAAlwEcAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-20T12:40:19.275Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
