@@ -8,6 +8,7 @@ namespace webApiAghos.Repositories
         object? GetTExamesList3();
         object? GetTexamesDetail(int tmpId);
         object? GetTexamesDetail2(int tmpId);
+        IEnumerable<EscalaExameDto> GetEscalaExames(int idEscalaExame);
 
     }
 }

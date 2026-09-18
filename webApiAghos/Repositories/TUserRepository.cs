@@ -106,6 +106,81 @@ namespace webApiAghos.Repositories
             return result;
         }
 
+        public IEnumerable<EscalaExameDto> GetEscalaExames(int idEscalaExame)
+        {
+            const string query = """
+                SELECT ID_EXAME AS IdExame,
+                       ID_ESCALA_EXAME AS IdEscalaExame,
+                       ID_ESCALA_GRADE_EXAME AS IdEscalaGradeExame,
+                       ID_SALA AS IdSala,
+                       PERIODO_INICIAL AS PeriodoInicial,
+                       PERIODO_FINAL AS PeriodoFinal,
+                       DESCR_SALA AS DescrSala,
+                       ID_GRADE_EXAME_ESTADO AS IdGradeExameEstado,
+                       PACIENTE AS Paciente,
+                       DESCR_EXAME_ESTADO AS DescrExameEstado,
+                       EXTRA AS Extra,
+                       COR AS Cor
+                  FROM (
+                        SELECT E.ID_EXAME,
+                               E.ID_ESCALA_EXAME,
+                               E.ID_ESCALA_GRADE_EXAME,
+                               E.ID_SALA,
+                               TO_CHAR(E.PERIODO_INICIAL, 'HH24:MI') PERIODO_INICIAL,
+                               TO_CHAR(E.PERIODO_FINAL, 'HH24:MI') PERIODO_FINAL,
+                               S.DESCR_SALA,
+                               E.ID_GRADE_EXAME_ESTADO,
+                               (SELECT B.NOME
+                                  FROM GSH_PRONTUARIO A, GSH_PESSOAS B, GSH_EXAME C
+                                 WHERE A.ID_PESSOA = B.ID_PESSOA
+                                   AND A.ID_PRONTUARIO = C.PRONTUARIO_SOLICITANTE
+                                   AND C.ID_EXAME = E.ID_EXAME) PACIENTE,
+                               EXE.DESCR_EXAME_ESTADO,
+                               DECODE(E.EXTRA, 1, 'SIM', 'NÃO') EXTRA,
+                               CASE WHEN E.EXTRA = 1 THEN 'clRed' ELSE 'clBlack' END COR
+                          FROM GSH_ESCALA_GRADE_EXAME E,
+                               GSH_SALA S,
+                               GSH_GRADE_EXAME_ESTADO EE,
+                               GSH_EXAME EX,
+                               GSH_EXAME_ESTADO EXE
+                         WHERE E.ID_SALA = S.ID_SALA
+                           AND E.ID_GRADE_EXAME_ESTADO = EE.ID_GRADE_EXAME_ESTADO
+                           AND E.ID_EXAME = EX.ID_EXAME
+                           AND EX.ID_EXAME_ESTADO = EXE.ID_EXAME_ESTADO
+                           AND E.ID_ESCALA_EXAME = :idEscalaExame
+                           AND EE.ID_GRADE_EXAME_ESTADO NOT IN (6)
+
+                        UNION
+
+                        SELECT GE.ID_EXAME,
+                               GE.ID_ESCALA_EXAME,
+                               GE.ID_ESCALA_GRADE_EXAME,
+                               GE.ID_SALA,
+                               TO_CHAR(GE.PERIODO_INICIAL, 'HH24:MI') PERIODO_INICIAL,
+                               TO_CHAR(GE.PERIODO_FINAL, 'HH24:MI') PERIODO_FINAL,
+                               SA.DESCR_SALA,
+                               GE.ID_GRADE_EXAME_ESTADO,
+                               PE.NOME PACIENTE,
+                               GEE.DESCR_GRADE_EXAME_ESTADO DESCR_EXAME_ESTADO,
+                               DECODE(GE.EXTRA, 1, 'SIM', 'NÃO') EXTRA,
+                               CASE WHEN GE.EXTRA = 1 THEN 'clRed' ELSE 'clBlack' END COR
+                          FROM GSH_ESCALA_GRADE_EXAME GE
+                         INNER JOIN GSH_SALA SA ON SA.ID_SALA = GE.ID_SALA
+                         INNER JOIN GSH_EXAME EX ON EX.ID_EXAME = GE.ID_EXAME
+                         INNER JOIN GSH_PRONTUARIO PR ON PR.ID_PRONTUARIO = EX.PRONTUARIO_SOLICITANTE
+                         INNER JOIN GSH_PESSOAS PE ON PE.ID_PESSOA = PR.ID_PESSOA
+                         INNER JOIN GSH_GRADE_EXAME_ESTADO GEE
+                            ON GEE.ID_GRADE_EXAME_ESTADO = GE.ID_GRADE_EXAME_ESTADO
+                         WHERE GE.ID_ESCALA_EXAME = :idEscalaExame
+                           AND GE.ID_GRADE_EXAME_ESTADO = 6
+                       )
+                 ORDER BY PERIODO_FINAL
+                """;
+
+            using var conn = oracleHelper.GetConnection();
+            return conn.Query<EscalaExameDto>(query, new { idEscalaExame }).ToList();
+        }
+
 //        var ids = new[] { 3, 7, 12 };
 //        var sql = "SELECT * FROM Products WHERE ProductId IN @Ids;";
 //using (var connection = new SqlConnection(connectionString))

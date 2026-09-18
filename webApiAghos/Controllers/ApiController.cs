@@ -88,5 +88,13 @@ namespace webApiAghos.Controllers
             }
             return Ok(result);
         }
+
+        [HttpGet]
+        [Route("api/GetEscalaExames/{idEscalaExame:int}")]
+        public ActionResult GetEscalaExames(int idEscalaExame)
+        {
+            var result = repository.GetEscalaExames(idEscalaExame);
+            return Ok(result);
+        }
     }
 }
