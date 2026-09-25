@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("webApiAghos")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a872edc800d9d8d5af6ee4e6eb1e2fe5a90324ae")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+120938ad8fd06a595a6caea83841b2964a7e43ae")]
 [assembly: System.Reflection.AssemblyProductAttribute("webApiAghos")]
 [assembly: System.Reflection.AssemblyTitleAttribute("webApiAghos")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

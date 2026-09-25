@@ -181,6 +181,83 @@ namespace webApiAghos.Repositories
             return conn.Query<EscalaExameDto>(query, new { idEscalaExame }).ToList();
         }
 
+        public IEnumerable<dynamic> GetAgendamentosDoDia(string data)
+        {
+            const string query = """
+                SELECT *
+                  FROM GSH_ESCALA_GRADE_EXAME E
+                 WHERE E.PERIODO_INICIAL >= TO_DATE(:data, 'DD/MM/YYYY')
+                   AND E.PERIODO_INICIAL < TO_DATE(:data, 'DD/MM/YYYY') + 1
+                   AND E.ID_GRADE_EXAME_ESTADO = 2
+                """;
+
+            using var conn = oracleHelper.GetConnection();
+            return conn.Query(query, new { data }).ToList();
+        }
+
+        public IEnumerable<dynamic> GetAgendamentosPorPeriodo(DateTime dataInicial, DateTime dataFinal, int? idHospital)
+        {
+            const string query = """
+                SELECT DISTINCT
+                       B.ID_ESCALA_EXAME, A.ID_EXAME, B.ID_ESCALA_GRADE_EXAME, B.PERIODO_INICIAL,
+                       TRIM(TO_CHAR(B.PERIODO_INICIAL, 'DD/MM/YY')) DATA,
+                       TRIM(TO_CHAR(B.PERIODO_INICIAL, 'HH24:MI')) HORA,
+                       TRIM(TO_CHAR(B.PERIODO_FINAL, 'HH24:MI')) HORAFIM,
+                       HO.ID_HOSPITAL, A.PRONTUARIO_SOLICITANTE, C.NOME,
+                       TRIM(TO_CHAR(C.CPF, '00000000000')) CPF,
+                       TRIM(TO_CHAR(C.NASCIMENTO, 'DD/MM/YY')) NASCIMENTO,
+                       A.ID_EXAME_ESTADO, EC.DESCR_EXAME_ESTADO DESCR, S.DESCR_SALA, S.ID_SALA,
+                       MED.NOME NOME_MEDICO, MED.CPF CPF_MEDICO, HO.CNES, EN.NOME_FANTASIA,
+                       C.NOME AS PACIENTE,
+                       SUBSTR(DECODE(A.ID_PROCEDIMENTO_UNIFICADO,
+                              NULL, PROC.ID_PROCEXAME || '-' || PROC.DESCR_PROCEXAME,
+                              (SELECT DISTINCT UU.CODPROC || '-' || UU.NOME
+                                 FROM GSH_PROCEDIMENTO_UNIFICADO UU
+                                WHERE UU.CODPROC = A.ID_PROCEDIMENTO_UNIFICADO)), 1, 30) AS PROCEDIMENTO,
+                       TO_CHAR(B.PERIODO_INICIAL, 'DY, DD/MM/YYYY') || ' - INICIO : ' ||
+                           TO_CHAR(B.PERIODO_INICIAL, 'HH24:MI') AS ESCALA,
+                       (SELECT DISTINCT CID.CID
+                          FROM GSH_APAC AP, GSH_CID CID
+                         WHERE AP.CID_PRINCIPAL = CID.ID_CID
+                           AND AP.ID_APAC = A.ID_APAC) CID,
+                       COALESCE(
+                           (SELECT MAX(F.FONE) FROM GSH_FONE F WHERE F.ID_TIPO_FONE = 1 AND F.ID_PESSOA = D.ID_PESSOA),
+                           (SELECT MAX(F.FONE) FROM GSH_FONE F WHERE F.ID_TIPO_FONE = 2 AND F.ID_PESSOA = D.ID_PESSOA),
+                           (SELECT MAX(F.FONE) FROM GSH_FONE F WHERE F.ID_TIPO_FONE = 3 AND F.ID_PESSOA = D.ID_PESSOA),
+                           (SELECT MAX(F.FONE) FROM GSH_FONE F WHERE F.ID_TIPO_FONE = 8 AND F.ID_PESSOA = D.ID_PESSOA),
+                           (SELECT MAX(F.FONE) FROM GSH_FONE F WHERE F.ID_TIPO_FONE = 7 AND F.ID_PESSOA = D.ID_PESSOA),
+                           (SELECT MAX(F.FONE) FROM GSH_FONE F WHERE F.ID_TIPO_FONE = 6 AND F.ID_PESSOA = D.ID_PESSOA),
+                           '00000000') FONE
+                  FROM GSH_EXAME A, GSH_ESCALA_GRADE_EXAME B, GSH_ESCALA_EXAME ES,
+                       GSH_PESSOAS C, GSH_PESSOAS MED, GSH_PRONTUARIO D, GSH_EXAME_ESTADO EC,
+                       GSH_SALA S, GSH_HOSPITAL HO, GSH_ENTIDADE EN, GSH_PROCEXAME PROC
+                 WHERE A.ID_EXAME = B.ID_EXAME
+                   AND C.ID_PESSOA(+) = D.ID_PESSOA
+                   AND A.PRONTUARIO_SOLICITANTE = D.ID_PRONTUARIO(+)
+                   AND EC.ID_EXAME_ESTADO = A.ID_EXAME_ESTADO
+                   AND S.ID_SALA = B.ID_SALA
+                   AND A.PROFISSIONAL_SOLICITANTE = MED.ID_PESSOA
+                   AND HO.ID_HOSPITAL = EN.ID_ENTIDADE
+                   AND TRUNC(B.PERIODO_INICIAL) BETWEEN :dataInicial AND :dataFinal
+                   AND PROC.ID_PROCEXAME(+) = B.ID_PROCEXAME
+                   AND ES.ID_HOSPITAL = HO.ID_HOSPITAL
+                   AND ES.ID_ESCALA_EXAME = B.ID_ESCALA_EXAME
+                   AND ES.ID_HOSPITAL = NVL(:idHospital, ES.ID_HOSPITAL)
+                   AND A.FLAG_APAC = 0
+                   AND A.ID_EXAME_ESTADO = 2
+                 ORDER BY B.PERIODO_INICIAL
+                """;
+
+            using var conn = oracleHelper.GetConnection();
+            var parameters = new OracleDynamicParameters();
+            parameters.Add("dataInicial", OracleDbType.Date, ParameterDirection.Input, dataInicial.Date);
+            parameters.Add("dataFinal", OracleDbType.Date, ParameterDirection.Input, dataFinal.Date);
+            parameters.Add("idHospital", OracleDbType.Int32, ParameterDirection.Input,
+                idHospital.HasValue ? idHospital.Value : DBNull.Value);
+
+            return conn.Query(query, parameters).ToList();
+        }
+
 //        var ids = new[] { 3, 7, 12 };
 //        var sql = "SELECT * FROM Products WHERE ProductId IN @Ids;";
 //using (var connection = new SqlConnection(connectionString))
